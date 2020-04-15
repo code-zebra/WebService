@@ -1,0 +1,12 @@
+<html>
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Welcome</title>
+</head>
+<body>
+Hello web.
+</body>
+</html>
+
+</html>
