@@ -1,9 +1,12 @@
 package cn.hainu.servlet;
 
+import cn.hainu.dao.IInfoDao;
 import cn.hainu.dao.IUserDao;
+import cn.hainu.dao.impl.InfoDaoImpl;
 import cn.hainu.dao.impl.UserDaoImpl;
 import cn.hainu.domain.PersonalInfo;
 import cn.hainu.domain.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +22,7 @@ import java.io.IOException;
 @WebServlet("/login")
 public class Login extends HttpServlet {
     IUserDao userDao = new UserDaoImpl();
+    IInfoDao infoDao = new InfoDaoImpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doPost(req, resp);
@@ -32,11 +36,12 @@ public class Login extends HttpServlet {
 
         System.out.println("查询中......");
 
-        String name = req.getParameter("name");
+        String username = req.getParameter("name");
         String password = req.getParameter("password");
+        System.out.println("name:" + username + "   -password:" + password);
 
         User user = new User();
-        user.setName(name);
+        user.setName(username);
         user.setPassword(password);
 
         // 若查询失败
@@ -53,7 +58,10 @@ public class Login extends HttpServlet {
              *  从MySQL中查询对象，封装到PersonalInfo对象中？
              *
              */
-            PersonalInfo info = new PersonalInfo();
+            PersonalInfo person = infoDao.findPersonalInfo(username);
+            ObjectMapper mapper = new ObjectMapper();
+            resp.setContentType("application/json;charset=utf-8");
+            mapper.writeValue(resp.getOutputStream(), person);
         }
 
     }

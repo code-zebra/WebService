@@ -22,4 +22,12 @@ public interface IInfoDao {
      */
     public boolean setPersonalInfo(PersonalInfo person);
 
+    /**
+     * 用户钱包充值
+     *
+     * @param username 用户名
+     * @param extra 充值金额
+     * @return 是否充值成功
+     */
+    public boolean addMoney(String username, int extra);
 }

@@ -26,6 +26,11 @@ public class TestCode {
         info.setPhone("654321");
         info.setEmail("233@qq.com");
         info.setMoney(500);
-        infoDao.setPersonalInfo(info);
+        System.out.println(infoDao.setPersonalInfo(info));
+    }
+
+    @Test
+    public void TestAddMoney() {
+        infoDao.addMoney("123",100);
     }
 }

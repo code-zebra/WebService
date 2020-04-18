@@ -28,9 +28,11 @@ public class InfoDaoImpl implements IInfoDao {
             info.setEmail(resultSet.getString("email"));
             info.setPhone(resultSet.getString("phone"));
             info.setName(resultSet.getString("name"));
+            System.out.println("findUserInfo success");
             return info;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("findUserInfo failure");
             return null;
         }finally {
             DBUtils.closeConnection();
@@ -40,7 +42,7 @@ public class InfoDaoImpl implements IInfoDao {
     @Override
     public boolean setPersonalInfo(PersonalInfo person) {
         Connection connection = DBUtils.getConnection();
-        System.out.println("findUserInfo......");
+        System.out.println("setPersonalInfo......");
         String sql = " update personal_info set money = ?, name = ?, phone = ?, email = ? where username = ?;";
         try {
             PreparedStatement prep = connection.prepareStatement(sql);
@@ -49,9 +51,27 @@ public class InfoDaoImpl implements IInfoDao {
             prep.setString(3, person.getPhone());
             prep.setString(4, person.getEmail());
             prep.setString(5, person.getUsername());
-            int result = prep.executeUpdate();
-            PersonalInfo info = new PersonalInfo();
-            return result != 0;
+            prep.executeUpdate();
+            return prep.getUpdateCount() != 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }finally {
+            DBUtils.closeConnection();
+        }
+    }
+
+    @Override
+    public boolean addMoney(String username, int extra) {
+        Connection connection = DBUtils.getConnection();
+        System.out.println("addMoney......");
+        String sql = " update personal_info set money = money+? where username = ?;";
+        try {
+            PreparedStatement prep = connection.prepareStatement(sql);
+            prep.setInt(1, extra);
+            prep.setString(2, username);
+            prep.executeUpdate();
+            return prep.getUpdateCount() != 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

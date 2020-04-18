@@ -19,7 +19,6 @@ import java.io.IOException;
  */
 @WebServlet("/editInfo")
 public class EditInfo extends HttpServlet {
-    IUserDao userDao = new UserDaoImpl();
     IInfoDao infoDao = new InfoDaoImpl();
 
     @Override
@@ -46,7 +45,7 @@ public class EditInfo extends HttpServlet {
         person.setName(name);
         person.setPhone(phone);
         person.setEmail(email);
-
+        System.out.println(person);
         if (!infoDao.setPersonalInfo(person)) {
             // 设置204错误码与出错信息
             System.out.println("更改用户信息失败");
