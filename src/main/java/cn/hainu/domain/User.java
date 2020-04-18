@@ -1,6 +1,11 @@
 package cn.hainu.domain;
 
-public class User {
+import java.io.Serializable;
+
+/**
+ * @author Ant
+ */
+public class User implements Serializable {
     private int id;
     private String name;
     private String password;

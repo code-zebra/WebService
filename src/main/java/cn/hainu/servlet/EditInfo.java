@@ -1,8 +1,10 @@
 package cn.hainu.servlet;
 
+import cn.hainu.dao.IInfoDao;
 import cn.hainu.dao.IUserDao;
+import cn.hainu.dao.impl.InfoDaoImpl;
 import cn.hainu.dao.impl.UserDaoImpl;
-import cn.hainu.domain.User;
+import cn.hainu.domain.PersonalInfo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,11 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 更改用户信息
  * @author Ant
  */
-@WebServlet("/register")
-public class Register extends HttpServlet {
+@WebServlet("/editInfo")
+public class EditInfo extends HttpServlet {
     IUserDao userDao = new UserDaoImpl();
+    IInfoDao infoDao = new InfoDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,27 +29,28 @@ public class Register extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("注册中......");
+        System.out.println("更改用户信息......");
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/plain; charset=utf-8");
 
+        String username = req.getParameter("username");
+        int money = Integer.parseInt(req.getParameter("money"));
         String name = req.getParameter("name");
-        String password = req.getParameter("password");
+        String phone = req.getParameter("phone");
+        String email = req.getParameter("email");
 
-        // 此处可能出现同一用户名不同密码情况，需改正
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
+        PersonalInfo person = new PersonalInfo();
+        person.setUsername(username);
+        person.setMoney(money);
+        person.setName(name);
+        person.setPhone(phone);
+        person.setEmail(email);
 
-        if (userDao.findUsername(name) || !userDao.add(user)) {
-            System.out.println("未查找到/注册失败");
+        if (!infoDao.setPersonalInfo(person)) {
+            // 设置204错误码与出错信息
+            System.out.println("更改用户信息失败");
             resp.sendError(204,"query failed.");
         }
-
-        else {
-            userDao.setPersonalInfo(name);
-        }
-
     }
 }

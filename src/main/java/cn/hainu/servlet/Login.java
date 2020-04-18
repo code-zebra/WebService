@@ -2,6 +2,7 @@ package cn.hainu.servlet;
 
 import cn.hainu.dao.IUserDao;
 import cn.hainu.dao.impl.UserDaoImpl;
+import cn.hainu.domain.PersonalInfo;
 import cn.hainu.domain.User;
 
 import javax.servlet.ServletException;
@@ -34,17 +35,25 @@ public class Login extends HttpServlet {
         String name = req.getParameter("name");
         String password = req.getParameter("password");
 
-        System.out.println(name);
-        System.out.println(password);
         User user = new User();
-        user.setName(user.getName());
-        user.setPassword(user.getPassword());
+        user.setName(name);
+        user.setPassword(password);
 
         // 若查询失败
         if(!userDao.query(user))
         {
             // 设置204错误码与出错信息
+            System.out.println("未查找到");
             resp.sendError(204,"query failed.");
+        }
+        // 查询成功，即登录成功
+        else {
+            /**
+             * 获取对应PersonalInfo对象，写回到response中
+             *  从MySQL中查询对象，封装到PersonalInfo对象中？
+             *
+             */
+            PersonalInfo info = new PersonalInfo();
         }
 
     }
