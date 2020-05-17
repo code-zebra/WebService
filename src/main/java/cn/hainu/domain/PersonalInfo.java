@@ -3,7 +3,8 @@ package cn.hainu.domain;
 import java.io.Serializable;
 
 /**
- * @author Ant
+ * @author 黄杰峰
+ * 个人信息实体类
  */
 public class PersonalInfo implements Serializable {
     private String username;

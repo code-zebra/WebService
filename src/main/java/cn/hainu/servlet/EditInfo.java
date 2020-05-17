@@ -20,7 +20,6 @@ import java.io.IOException;
 @WebServlet("/editInfo")
 public class EditInfo extends HttpServlet {
     IInfoDao infoDao = new InfoDaoImpl();
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doPost(req, resp);
